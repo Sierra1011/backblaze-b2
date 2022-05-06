@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - '*'
-  workflow_dispatch:
 
 jobs:
   build:
@@ -27,6 +26,7 @@ jobs:
           images: |
             docker.io/${{ github.repository }}
           tags: |
+            type=ref,event=branch
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
@@ -46,7 +46,6 @@ jobs:
         uses: docker/build-push-action@v2
         env:
           DOCKER_BUILDKIT: 1
-          VERSION: ${{ steps.meta.outputs.tags }}
         with:
           push: true
           context: ./
