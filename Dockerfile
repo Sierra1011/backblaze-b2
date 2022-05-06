@@ -3,7 +3,7 @@ RUN apt-get update
 
 ENV AUTHORIZATION_FAIL_MAX_RETRIES=3
 
-RUN pip install b2==3.1.0
+RUN pip install b2==3.2.0
 
 COPY src/entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh
