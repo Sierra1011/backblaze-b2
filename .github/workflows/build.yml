@@ -31,19 +31,16 @@ jobs:
         run: |
           echo timestamp="$(date +%s)" >> $GITHUB_ENV
 
-      - name: Extract metadata (tags, labels) for Docker
+      - name: Get current release
         id: meta
-        uses: docker/metadata-action@v3
-        with:
-          #images: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_ECR_REPO }}
-          tags: |
-            type=sha,prefix={{branch}}-
-          # ,suffix=-${{ env.timestamp }}
+        uses: joutvhu/get-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: ./
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.id }}
           #labels: ${{ steps.meta.outputs.labels }}
