@@ -1,7 +1,10 @@
 name: Get latest release version
+
 on:
-  schedule:
-    - cron:  '0 30 * * *'
+  workflow_dispatch:
+  #schedule:
+  #  - cron:  '0 30 * * *'
+
 jobs:
   get-version:
     runs-on: ubuntu-latest
