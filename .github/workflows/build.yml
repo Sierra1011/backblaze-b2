@@ -1,7 +1,7 @@
 name: Build
 
 on:
-  push:
+  :
   workflow_dispatch:
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            docker.io/${{ secrets.DOCKERHUB_REPOSITORY }}
+            docker.io/${{ github.repository }}
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
