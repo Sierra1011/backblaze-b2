@@ -1,6 +1,7 @@
+[![Build](https://github.com/Sierra1011/backblaze-b2/actions/workflows/build.yml/badge.svg)](https://github.com/Sierra1011/backblaze-b2/actions/workflows/build.yml)
 # Docker Backblaze B2 command line tool image
 
-[![Sierra1011/backblaze-b2](http://dockeri.co/image/sierra1011/backblaze-b2)](https://registry.hub.docker.com/u/sierra1011/backblaze-b2/) [![Build](https://github.com/Sierra1011/backblaze-b2/actions/workflows/build.yml/badge.svg)](https://github.com/Sierra1011/backblaze-b2/actions/workflows/build.yml)
+[![Sierra1011/backblaze-b2](http://dockeri.co/image/sierra1011/backblaze-b2)](https://registry.hub.docker.com/u/sierra1011/backblaze-b2/) 
 
 Docker image for the official Backblaze B2 command line tool ([Backblaze/B2_Command_Line_Tool](https://github.com/Backblaze/B2_Command_Line_Tool))
 
