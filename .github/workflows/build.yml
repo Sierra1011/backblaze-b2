@@ -23,7 +23,8 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            docker.io/sierra1011/backblaze-b2
+            name=docker.io/sierra1011/backblaze-b2
+            enable=true
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
