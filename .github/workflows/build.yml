@@ -24,7 +24,6 @@ jobs:
         with:
           images: |
             name=docker.io/sierra1011/backblaze-b2
-            enable=true
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
