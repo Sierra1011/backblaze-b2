@@ -24,8 +24,9 @@ jobs:
       - name: Check existing version
         id: current
         run: |
-          echo $(cat ./cliv)
-          echo ""::set-output name=version::$CUR"
+          CUR=$(curl -sL "https://api.github.com/repos/Sierra1011/backblaze-b2/releases/latest" | jq -r '.tag_name' | cut -c 2-)
+          echo "::set-output name=version::$CUR"
+          echo "Released version: $CUR"
       
       #- name: Compare versions
       #  id: compare
