@@ -39,8 +39,8 @@ jobs:
         if: steps.compare.outputs.update == 'true'
         run: |
           echo "${{ steps.current.outputs.version }}" > cliv
-          git config --global user.name "${{ GH_USERNAME }}"
-          git config --global user.email "${{ GH_USEREMAIL }}"
+          git config --global user.name "${{ secrets.GH_USERNAME }}"
+          git config --global user.email "${{ secrets.GH_USEREMAIL }}"
           git commit -am "New release version ${{ steps.current.outputs.version }}"
           git push
         
