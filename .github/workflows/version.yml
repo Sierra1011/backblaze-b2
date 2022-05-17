@@ -14,14 +14,14 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch latest release version
+      - name: Fetch latest released version
         id: latest
         run: |
           VER=$(curl -sL "https://api.github.com/repos/Backblaze/B2_Command_Line_Tool/releases/latest" | jq -r '.tag_name' | cut -c 2-)
           echo "::set-output name=version::$VER"
           echo "Available version: $VER"
       
-      - name: Check existing version
+      - name: Check current version
         id: current
         run: |
           CUR=$(curl -sL "https://api.github.com/repos/Sierra1011/backblaze-b2/releases/latest" | jq -r '.tag_name' )
@@ -33,16 +33,16 @@ jobs:
         run: |
           if [ "${{ steps.latest.outputs.version }}" = "${{ steps.current.outputs.version }}" ]; then
             echo "::set-output name=update::false"
+            echo "Update not needed"
           else
             echo "::set-output name=update::true"
+            echo "Update needed"
           fi       
         
       - name: Update if necessary
         if: steps.compare.outputs.update == 'true'
-        run: |
-          echo "${{ steps.current.outputs.version }}" > cliv
-          git config --global user.name "${{ secrets.GH_USERNAME }}"
-          git config --global user.email "${{ secrets.GH_USEREMAIL }}"
-          git commit -am "New release version ${{ steps.current.outputs.version }}"
-          git push
-        
+        uses: elgohr/Github-Release-Action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          title: ${{ steps.current.outputs.version }}
