@@ -19,11 +19,12 @@ jobs:
         run: |
           VER=$(curl -sL "https://api.github.com/repos/Backblaze/B2_Command_Line_Tool/releases/latest" | jq -r '.tag_name' | cut -c 2-)
           echo "::set-output name=version::$VER"
+          echo "Available version: $VER"
       
       - name: Check existing version
         id: current
         run: |
-          cat cliv
+          echo $(cat ./cliv)
           echo ""::set-output name=version::$CUR"
       
       #- name: Compare versions
