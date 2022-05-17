@@ -28,21 +28,21 @@ jobs:
           echo "::set-output name=version::$CUR"
           echo "Released version: $CUR"
       
-      #- name: Compare versions
-      #  id: compare
-      #  run: |
-      #    if [ "${{ steps.latest.outputs.version }}" = "${{ steps.current.outputs.version }}" ]; then
-      #      echo "::set-output name=update::false"
-      #    else
-      #      echo "::set-output name=update::true"
-      #    fi       
-      #  
-      #- name: Update if necessary
-      #  if: steps.compare.outputs.update == 'true'
-      #  run: |
-      #    echo "${{ steps.current.outputs.version }}" > cliv
-      #    git config --global user.name "${{ secrets.GH_USERNAME }}"
-      #    git config --global user.email "${{ secrets.GH_USEREMAIL }}"
-      #    git commit -am "New release version ${{ steps.current.outputs.version }}"
-      #    git push
+      - name: Compare versions
+        id: compare
+        run: |
+          if [ "${{ steps.latest.outputs.version }}" = "${{ steps.current.outputs.version }}" ]; then
+            echo "::set-output name=update::false"
+          else
+            echo "::set-output name=update::true"
+          fi       
+        
+      - name: Update if necessary
+        if: steps.compare.outputs.update == 'true'
+        run: |
+          echo "${{ steps.current.outputs.version }}" > cliv
+          git config --global user.name "${{ secrets.GH_USERNAME }}"
+          git config --global user.email "${{ secrets.GH_USEREMAIL }}"
+          git commit -am "New release version ${{ steps.current.outputs.version }}"
+          git push
         

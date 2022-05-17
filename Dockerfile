@@ -4,7 +4,8 @@ RUN pip install --upgrade pip
 
 ENV AUTHORIZATION_FAIL_MAX_RETRIES=3
 
-RUN pip install b2==3.4.0
+ARG VERSION
+RUN pip install b2==$VERSION
 
 COPY src/entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh
