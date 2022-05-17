@@ -43,6 +43,6 @@ jobs:
         if: steps.compare.outputs.update == 'true'
         uses: elgohr/Github-Release-Action@v4
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          title: ${{ steps.current.outputs.version }}
+          title: ${{ steps.latest.outputs.version }}
