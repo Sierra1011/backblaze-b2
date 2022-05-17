@@ -24,7 +24,7 @@ jobs:
       - name: Check existing version
         id: current
         run: |
-          CUR=$(curl -sL "https://api.github.com/repos/Sierra1011/backblaze-b2/releases/latest" | jq -r '.tag_name' | cut -c 2-)
+          CUR=$(curl -sL "https://api.github.com/repos/Sierra1011/backblaze-b2/releases/latest" | jq -r '.tag_name' )
           echo "::set-output name=version::$CUR"
           echo "Released version: $CUR"
       
