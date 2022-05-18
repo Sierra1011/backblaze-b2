@@ -42,7 +42,7 @@ jobs:
         
       - name: Update if necessary
         if: steps.compare.outputs.update == 'true'
-      - uses: "marvinpinto/action-automatic-releases@latest"
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
