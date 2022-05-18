@@ -40,13 +40,17 @@ jobs:
             echo "Update needed"
           fi       
         
-      - name: Tag and release
+      #- name: Create tag
+      #  id: create_tag
+      #  if: steps.compare.outputs.update == 'true'
+      #  uses: rickstaa/action-create-tag@v2
+      #  with:
+      #    message: "v${{ steps.latest.outputs.version }}"
+      #    tag: "${{ steps.latest.outputs.version }}"
+
+      - name: Create release
         if: steps.compare.outputs.update == 'true'
-        id: create_release
-        uses: K-Phoen/semver-release-action@master
+        uses: ncipollo/release-action@v1
         with:
-          release_branch: main
-          release_strategy: tag
-          tag : ${{ steps.latest.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: "${{ steps.latest.outputs.version }}"
+          commit: "main"
