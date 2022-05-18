@@ -7,7 +7,7 @@ on:
   #  - cron:  '0 30 * * *'
 
 jobs:
-  get-version:
+  tag-version:
     runs-on: ubuntu-latest
     
     steps:
@@ -48,7 +48,9 @@ jobs:
           tag: "${{ steps.latest.outputs.version }}"
           name: "v${{ steps.latest.outputs.version }}"
           commit: "main"
-      
+  build:
+    runs-on: ubuntu-latest    
+    steps:
       - name: Trigger build
         if: steps.compare.outputs.update == 'true'
         uses: Sierra1011/backblaze-b2/.github/workflows/build.yml@main
