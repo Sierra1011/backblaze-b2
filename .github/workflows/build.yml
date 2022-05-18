@@ -1,14 +1,9 @@
 name: Build
 
 on:  
-  #push:
-  #  tags:
-  #    - '*'
-  workflow_call:
-    inputs:
-      tag:
-        required: true
-        type: string
+  push:
+    tags:
+      - '*'
 
 jobs:
   build:
