@@ -43,7 +43,7 @@ jobs:
       - name: Create tag
         id: create_tag
         if: steps.compare.outputs.update == 'true'
-        uses: rickstaa/action-create-tag@v2
+        uses: rickstaa/action-create-tag@v3
         with:
           message: "v${{ steps.latest.outputs.version }}"
           tag: "${{ steps.latest.outputs.version }}"
