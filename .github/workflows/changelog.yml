@@ -1,5 +1,3 @@
-
-  
 name: Changelog Generator
 on:
   pull_request:
