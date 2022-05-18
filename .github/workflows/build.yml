@@ -1,9 +1,14 @@
 name: Build
 
 on:  
-  push:
-    tags:
-      - '*'
+  #push:
+  #  tags:
+  #    - '*'
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
 
 jobs:
   build:
@@ -47,6 +52,8 @@ jobs:
         env:
           DOCKER_BUILDKIT: 1
         with:
+          build-args: |
+            VERSION=${{ inputs.tag }}
           push: true
           context: ./
           tags: ${{ steps.meta.outputs.tags }}
