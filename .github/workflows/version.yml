@@ -53,4 +53,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: "${{ steps.latest.outputs.version }}"
+          name: "v${{ steps.latest.outputs.version }}"
           commit: "main"
