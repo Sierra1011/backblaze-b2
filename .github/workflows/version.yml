@@ -48,11 +48,9 @@ jobs:
           tag: "${{ steps.latest.outputs.version }}"
           name: "v${{ steps.latest.outputs.version }}"
           commit: "main"
-  build:
-    runs-on: ubuntu-latest    
-    steps:
-      - name: Trigger build
-        if: steps.compare.outputs.update == 'true'
-        uses: Sierra1011/backblaze-b2/.github/workflows/build.yml@main
-        with:
-          tag: "${{ steps.latest.outputs.version }}"
+
+  call_build_workflow:
+    needs: tag-version
+    uses: Sierra1011/backblaze-b2/.github/workflows/build.yml@main 
+    with:
+      tag: "${{ steps.latest.outputs.version }}"
