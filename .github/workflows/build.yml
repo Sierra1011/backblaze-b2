@@ -42,13 +42,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Check current version
+        id: current
+        run: |
+          CUR=$(curl -sL "https://api.github.com/repos/Sierra1011/backblaze-b2/releases/latest" | jq -r '.tag_name' )
+          echo "::set-output name=version::$CUR"
+          echo "Released version: $CUR"
+
       - name: Build and push
         uses: docker/build-push-action@v2
         env:
           DOCKER_BUILDKIT: 1
         with:
           build-args: |
-            VERSION=${{ inputs.tag }}
+            VERSION=${{ steps.current.outputs.version }}"
           push: true
           context: ./
           tags: ${{ steps.meta.outputs.tags }}
