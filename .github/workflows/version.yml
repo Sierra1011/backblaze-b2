@@ -47,3 +47,9 @@ jobs:
           tag: "${{ steps.latest.outputs.version }}"
           name: "v${{ steps.latest.outputs.version }}"
           commit: "main"
+      
+      - name: Trigger build
+        if: steps.compare.outputs.update == 'true'
+        uses: Sierra1011/backblaze-b2/blob/main/.github/workflows/build.yml@main
+        with:
+          tag: "${{ steps.latest.outputs.version }}"
