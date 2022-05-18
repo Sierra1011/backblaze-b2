@@ -54,3 +54,4 @@ jobs:
     uses: Sierra1011/backblaze-b2/.github/workflows/build.yml@main 
     with:
       tag: "${{ needs.tag.outputs.version }}"
+    secrets: inherit
