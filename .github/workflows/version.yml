@@ -41,18 +41,19 @@ jobs:
             echo "Update needed"
           fi       
         
-      - name: Create tag
-        id: create_tag
-        if: steps.compare.outputs.update == 'true'
-        uses: rickstaa/action-create-tag@v1
-        with:
-          tag: "${{ steps.latest.outputs.version }}"
-          message: "v${{ steps.latest.outputs.version }}"
-          force_push_tag: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      #- name: Create release
+      #- name: Create tag
+      #  id: create_tag
       #  if: steps.compare.outputs.update == 'true'
-      #  uses: ncipollo/release-action@v1
+      #  uses: rickstaa/action-create-tag@v1
       #  with:
       #    tag: "${{ steps.latest.outputs.version }}"
+      #    message: "v${{ steps.latest.outputs.version }}"
+      #    force_push_tag: true
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release
+        if: steps.compare.outputs.update == 'true'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.latest.outputs.version }}"
+          name: "version ${{ steps.latest.outputs.version }}"
