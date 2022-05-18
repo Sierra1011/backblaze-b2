@@ -1,4 +1,5 @@
 [![Build](https://github.com/Sierra1011/backblaze-b2/actions/workflows/build.yml/badge.svg)](https://github.com/Sierra1011/backblaze-b2/actions/workflows/build.yml)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Sierra1011/backblaze-b2?logo=github&sort=semver)](https://github.com/Sierra1011/backblaze-b2/releases)
 # Docker Backblaze B2 command line tool image
 
 [![Sierra1011/backblaze-b2](http://dockeri.co/image/sierra1011/backblaze-b2)](https://registry.hub.docker.com/u/sierra1011/backblaze-b2/) 

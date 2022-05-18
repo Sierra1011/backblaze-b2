@@ -1,4 +1,4 @@
-name: Get latest version
+name: Get latest release version
 
 on:
   workflow_dispatch:
@@ -40,10 +40,10 @@ jobs:
             echo "Update needed"
           fi       
         
-      - name: Create release
+      - name: Create tag
+        id: create_tag
         if: steps.compare.outputs.update == 'true'
-        uses: ncipollo/release-action@v1
+        uses: rickstaa/action-create-tag@v2
         with:
+          message: "v${{ steps.latest.outputs.version }}"
           tag: "${{ steps.latest.outputs.version }}"
-          name: "v${{ steps.latest.outputs.version }}"
-          commit: "main"
