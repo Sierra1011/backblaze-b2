@@ -49,9 +49,41 @@ jobs:
           name: "v${{ steps.latest.outputs.version }}"
           commit: "main"
 
-  call_build_workflow:
-    needs: tag-version
-    uses: Sierra1011/backblaze-b2/.github/workflows/build.yml@main 
-    with:
-      tag: "${{ needs.tag.outputs.version }}"
-    secrets: inherit
+      - name: Generate Docker metadata
+        if: steps.compare.outputs.update == 'true'
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            docker.io/${{ github.repository }}
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+          flavor: |
+            latest=true
+      
+      - name: Setup Docker Buildx
+        if: steps.compare.outputs.update == 'true'
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker Hub
+        if: steps.compare.outputs.update == 'true'
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        if: steps.compare.outputs.update == 'true'
+        uses: docker/build-push-action@v2
+        env:
+          DOCKER_BUILDKIT: 1
+        with:
+          build-args: |
+            VERSION=${{ steps.latest.outputs.version }}
+          push: true
+          context: ./
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
