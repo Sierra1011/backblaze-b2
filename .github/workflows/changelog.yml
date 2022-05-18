@@ -1,3 +1,12 @@
+
+  
+name: Changelog Generator
+on:
+  pull_request:
+    branches:
+      - prod
+
+jobs:
   changelog:
     name: Changelog Generator
     runs-on: ubuntu-latest
