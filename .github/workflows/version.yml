@@ -8,6 +8,7 @@ on:
 jobs:
   get-version:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -41,8 +42,8 @@ jobs:
         
       - name: Update if necessary
         if: steps.compare.outputs.update == 'true'
-        uses: elgohr/Github-Release-Action@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: "marvinpinto/action-automatic-releases@latest"
         with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
           title: ${{ steps.latest.outputs.version }}
