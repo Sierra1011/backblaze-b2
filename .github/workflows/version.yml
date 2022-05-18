@@ -40,11 +40,12 @@ jobs:
             echo "Update needed"
           fi       
         
-      - name: Update if necessary
+      - name: Tag and release
         if: steps.compare.outputs.update == 'true'
-        uses: "marvinpinto/action-automatic-releases@latest"
+        id: create_release
+        uses: K-Phoen/semver-release-action@master
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          draft: false
-          prerelease: false
-          title: ${{ steps.latest.outputs.version }}
+          release_branch: main
+          tag : ${{ steps.latest.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
