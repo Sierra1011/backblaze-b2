@@ -1,13 +1,71 @@
-name: Build
+name: Get latest release version
 
-on:  
+on:
+  push:
   workflow_dispatch:
-  release:
-      types: [published]
+  #schedule:
+  #  - cron:  '0 30 * * *'
 
 jobs:
+  version:
+    name: Version
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    outputs:
+      update: ${{ steps.compare.outputs.update }}
+      release: ${{ steps.latest.outputs.version }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch latest released version
+        id: latest
+        run: |
+          VER=$(curl -sL "https://api.github.com/repos/Backblaze/B2_Command_Line_Tool/releases/latest" | jq -r '.tag_name' | cut -c 2-)
+          echo "::set-output name=version::$VER"
+          echo "Available version: $VER"
+      
+      - name: Check current version
+        id: current
+        run: |
+          CUR=$(curl -sL "https://api.github.com/repos/Sierra1011/backblaze-b2/releases/latest" | jq -r '.tag_name' )
+          echo "::set-output name=version::$CUR"
+          echo "Released version: $CUR"
+      
+      - name: Compare versions
+        id: compare
+        run: |
+          if [ "${{ steps.latest.outputs.version }}" = "${{ steps.current.outputs.version }}" ]; then
+            echo "::set-output name=update::false"
+            echo "Update not needed"
+          else
+            echo "::set-output name=update::true"
+            echo "Update needed"
+          fi       
+        
+      #- name: Create tag
+      #  id: create_tag
+      #  if: steps.compare.outputs.update == 'true'
+      #  uses: rickstaa/action-create-tag@v1
+      #  with:
+      #    tag: "${{ steps.latest.outputs.version }}"
+      #    message: "v${{ steps.latest.outputs.version }}"
+      #    force_push_tag: true
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release
+        if: steps.compare.outputs.update == 'true'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "${{ steps.latest.outputs.version }}"
+          name: "version ${{ steps.latest.outputs.version }}"
+
   build:
-    name: 'Build'
+    if: ${{ needs.version.outputs.update == 'true' }}
+    name: Build
+    needs: version
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -42,20 +100,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Check current version
-        id: current
-        run: |
-          CUR=$(curl -sL "https://api.github.com/repos/Sierra1011/backblaze-b2/releases/latest" | jq -r '.tag_name' )
-          echo "::set-output name=version::$CUR"
-          echo "Released version: $CUR"
-
       - name: Build and push
         uses: docker/build-push-action@v2
         env:
           DOCKER_BUILDKIT: 1
         with:
           build-args: |
-            VERSION=${{ steps.current.outputs.version }}
+            VERSION=${{ needs.version.outputs.update }}
           push: true
           context: ./
           tags: ${{ steps.meta.outputs.tags }}
