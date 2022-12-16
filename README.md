@@ -2,7 +2,7 @@
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Sierra1011/backblaze-b2?logo=github&sort=semver)](https://github.com/Sierra1011/backblaze-b2/releases)
 # Docker Backblaze B2 command line tool image
 
-[![Sierra1011/backblaze-b2](http://dockeri.co/image/sierra1011/backblaze-b2)](https://registry.hub.docker.com/u/sierra1011/backblaze-b2/) 
+[![DockerHub](https://dockeri.co/image/sierra1011/backblaze-b2)](https://hub.docker.com/r/sierra1011/backblaze-b2)
 
 Docker image for the official Backblaze B2 command line tool ([Backblaze/B2_Command_Line_Tool](https://github.com/Backblaze/B2_Command_Line_Tool))
 
